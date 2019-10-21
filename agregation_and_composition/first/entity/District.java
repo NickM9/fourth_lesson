@@ -1,29 +1,15 @@
 package by.epam.agregation_and_composition.first.entity;
 
-import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
 
 public class District {
 
     private String name;
-    private int area;
-    private int population;
-    private City[] cities;
+    private Set<City> cities;
 
-    public District(String name, City[] cities) {
+    public District(String name, Set<City> cities) {
         this.name = name;
-        int areaSum = 0;
-
-        for (int i = 0; i < cities.length; i++){
-            areaSum += cities[i].getArea();
-        }
-        this.area = areaSum;
-
-        int populationSum = 0;
-        for (int i = 0; i < cities.length; i++){
-            populationSum += cities[i].getPopulation();
-        }
-        this.population = populationSum;
-
         this.cities = cities;
     }
 
@@ -35,27 +21,11 @@ public class District {
         this.name = name;
     }
 
-    public int getArea() {
-        return area;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    public int getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    public City[] getCities() {
+    public Set<City> getCities() {
         return cities;
     }
 
-    public void setCities(City[] cities) {
+    public void setCities(Set<City> cities) {
         this.cities = cities;
     }
 
@@ -63,9 +33,21 @@ public class District {
     public String toString() {
         return "District{" +
                 "name='" + name + '\'' +
-                ", area=" + area +
-                ", population=" + population +
-                ", cities=" + Arrays.toString(cities) +
+                ", cities=" + cities +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        District district = (District) o;
+        return Objects.equals(name, district.name) &&
+                Objects.equals(cities, district.cities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cities);
     }
 }

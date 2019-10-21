@@ -1,29 +1,15 @@
 package by.epam.agregation_and_composition.first.entity;
 
-import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
 
 public class State {
 
     private String name;
-    private int area;
-    private int population;
-    private Region[] regions;
+    private Set<Region> regions;
 
-    public State(String name, Region[] regions) {
+    public State(String name, Set<Region> regions) {
         this.name = name;
-
-        int areaSum = 0;
-        for (int i = 0; i < regions.length; i++){
-            areaSum += regions[i].getArea();
-        }
-        this.area = areaSum;
-
-        int populationSum = 0;
-        for (int i = 0; i < regions.length; i++){
-            populationSum += regions[i].getPopulation();
-        }
-        this.population = populationSum;
-
         this.regions = regions;
     }
 
@@ -35,27 +21,11 @@ public class State {
         this.name = name;
     }
 
-    public int getArea() {
-        return area;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    public int getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    public Region[] getRegions() {
+    public Set<Region> getRegions() {
         return regions;
     }
 
-    public void setRegions(Region[] regions) {
+    public void setRegions(Set<Region> regions) {
         this.regions = regions;
     }
 
@@ -63,9 +33,21 @@ public class State {
     public String toString() {
         return "State{" +
                 "name='" + name + '\'' +
-                ", area=" + area +
-                ", population=" + population +
-                ", regions=" + Arrays.toString(regions) +
+                ", regions=" + regions +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        State state = (State) o;
+        return Objects.equals(name, state.name) &&
+                Objects.equals(regions, state.regions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, regions);
     }
 }

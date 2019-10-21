@@ -12,30 +12,13 @@ import by.epam.agregation_and_composition.second.entity.*;
 
 public class TextLogic {
 
-    public String addText(Text text, Sentence sentence){
-        StringBuffer sb = new StringBuffer(text.toString());
-        sb.append(sentence);
-
-        return sb.toString();
+    public void addText(Text text, Sentence sentence){
+        text.getSentences().add(sentence);
     }
 
-    public String giveText(Text text){
-        StringBuffer sb = new StringBuffer(text.getHeader());
-        sb.append("\n");
-
-        for (int i = 0; i < text.getSentences().length; i++){
-            for (int j = 0; j < text.getSentences()[i].getWords().length; j++){
-                sb.append(text.getSentences()[i].getWords()[j].getWord());
-                sb.append(" ");
-            }
-        }
-        sb.append("\n");
-
-        return sb.toString();
-    }
-
-    public String giveHeader(Text text){
-        return text.getHeader();
+    public void addText(Text text, Sentence sentence, int index){
+        index--;
+        text.getSentences().add(index, sentence);
     }
 
 }

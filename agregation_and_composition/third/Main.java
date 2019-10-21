@@ -7,63 +7,65 @@ package by.epam.agregation_and_composition.third;
  */
 
 import by.epam.agregation_and_composition.third.entity.Account;
-import by.epam.agregation_and_composition.third.entity.Bank;
 import by.epam.agregation_and_composition.third.entity.Client;
-import by.epam.agregation_and_composition.third.logic.BankLogic;
+import by.epam.agregation_and_composition.third.logic.ClientLogic;
 
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
 
+        // Аккаунты
         Account account1 = new Account(1033, 45);
         Account account2  = new Account(1004, -30);
         Account account3  = new Account(1051, 125);
         Account account4 = new Account(1015, 80);
         Account account5 = new Account(1012, -10);
 
-        ArrayList<Account> bobList = new ArrayList<Account>();
+        ArrayList<Account> bobList = new ArrayList<>();
         bobList.add(account1);
         bobList.add(account2);
         bobList.add(account3);
-
-        ArrayList<Account> lizaList = new ArrayList<Account>();
-        lizaList.add(account4);
-        lizaList.add(account5);
+        bobList.add(account4);
+        bobList.add(account5);
 
         Client bob = new Client("Bob", bobList);
-        Client liza = new Client("Liza", lizaList);
 
-        ArrayList<Client> clients = new ArrayList<Client>();
-        clients.add(bob);
-        clients.add(liza);
 
-        Bank alpha = new Bank("Alpha", clients);
+        // Начало логики
 
-        BankLogic bankLogic = new BankLogic();
+        ClientLogic clientLogic = new ClientLogic();
 
         System.out.println("Поиск по номеру счёта");
-        System.out.println(bankLogic.getAccount(alpha, 1004));
+        printAccount(clientLogic.getAccount(bob, 1004));
         System.out.println("################################\n");
 
         System.out.println("Сортировка счетов по номерам");
-        alpha = bankLogic.sortById(alpha);
-        for (int i = 0; i < alpha.getClients().size(); i++){
-            System.out.println(alpha.getClients().get(i).toString());
+        clientLogic.sortById(bob);
+        for (Account account : bob.getAccounts()){
+            printAccount(account);
         }
         System.out.println("################################\n");
 
         System.out.println("Общая сумма счетов клиента " + bob.getClientName());
-        System.out.println(bankLogic.getSum(alpha, bob));
+        System.out.println(clientLogic.getSum(bob));
         System.out.println("################################\n");
 
         System.out.println("Положительная сумма счетов клиента " + bob.getClientName());
-        System.out.println(bankLogic.getPositiveSum(alpha, bob));
+        System.out.println(clientLogic.getPositiveSum(bob));
         System.out.println("################################\n");
 
         System.out.println("Отрицательная сумма счетов клиента " + bob.getClientName());
-        System.out.println(bankLogic.getNegativeSum(alpha, bob));
+        System.out.println(clientLogic.getNegativeSum(bob));
         System.out.println("################################\n");
 
+    }
+
+    private static void printAccount(Account account){
+        StringBuffer sb = new StringBuffer("Аккаунт :\n");
+        sb.append("id - "); sb.append(account.getId()); sb.append("\n");
+        sb.append("Сумма счёта - "); sb.append(account.getBalance()); sb.append("\n");
+        sb.append("Статус блокировки - "); sb.append(account.isBlock()); sb.append("\n");
+        System.out.println(sb.toString());
     }
 }

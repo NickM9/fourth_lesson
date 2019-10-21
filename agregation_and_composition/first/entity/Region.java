@@ -1,29 +1,15 @@
 package by.epam.agregation_and_composition.first.entity;
 
-import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
 
 public class Region {
 
     private String name;
-    private int area;
-    private int population;
-    private District[] districts;
+    private Set<District> districts;
 
-    public Region(String name, District[] districts) {
+    public Region(String name, Set<District> districts) {
         this.name = name;
-
-        int areaSum = 0;
-        for (int i = 0; i < districts.length; i++){
-            areaSum += districts[i].getArea();
-        }
-        this.area = areaSum;
-
-        int populationSum = 0;
-        for (int i = 0; i < districts.length; i++){
-            populationSum += districts[i].getPopulation();
-        }
-        this.population = populationSum;
-
         this.districts = districts;
     }
 
@@ -35,27 +21,11 @@ public class Region {
         this.name = name;
     }
 
-    public int getArea() {
-        return area;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    public int getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    public District[] getDistricts() {
+    public Set<District> getDistricts() {
         return districts;
     }
 
-    public void setDistricts(District[] districts) {
+    public void setDistricts(Set<District> districts) {
         this.districts = districts;
     }
 
@@ -63,9 +33,21 @@ public class Region {
     public String toString() {
         return "Region{" +
                 "name='" + name + '\'' +
-                ", area=" + area +
-                ", population=" + population +
-                ", districts=" + Arrays.toString(districts) +
+                ", districts=" + districts +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Region region = (Region) o;
+        return Objects.equals(name, region.name) &&
+                Objects.equals(districts, region.districts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, districts);
     }
 }

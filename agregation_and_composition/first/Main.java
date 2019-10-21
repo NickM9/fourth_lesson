@@ -3,6 +3,9 @@ package by.epam.agregation_and_composition.first;
 import by.epam.agregation_and_composition.first.entity.*;
 import by.epam.agregation_and_composition.first.logic.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /*
 Создать объект типа Государство, используя классы Область, Район, Город.
 Методы: вывести на консоль столицу, количество областей, площадь, областные центры.
@@ -11,43 +14,85 @@ import by.epam.agregation_and_composition.first.logic.*;
 public class Main {
     public static void main(String[] args) {
 
-        City brest = new City("Brest", 350616, 146, false, true);
-        City vitebsk = new City("Vitebsk", 378459, 134, false, true);
-        City gomel = new City("Gomel", 535229, 139, false, true);
-        City grodno = new City("Grodno", 373547, 142, false, true);
-        City minsk = new City("Minsk", 1992685, 348, true, true);
-        City mogilev = new City("Mogilev", 383313, 118, false, true);
-        City orsha = new City("Orsha", 115052, 33, false, false);
-        City borisov = new City("Borisov", 143051, 46, false, false);
-        City polotsk = new City("Polotsk", 84597, 40, false, false);
+        // Первый район
         City rechitsa = new City("Rechitsa", 65432, 45, false, false);
         City baranovichi = new City("Baranovichi", 64552, 67, false, false);
 
-        District baranovichski = new District("Baranovichskiy", new City[]{baranovichi, rechitsa});
-        District brestsiy = new District("Brestsiy", new City[]{brest, borisov});
-        District kobrinsky = new District("Kobrinsky", new City[]{polotsk, orsha});
-        District minsky = new District("Minsky", new City[]{minsk});
-        District mogilevsky = new District("Mogilevsky", new City[]{mogilev, vitebsk});
-        District gomelsky = new District("Gomelsky", new City[]{gomel, grodno});
+        Set<City> districtBaranovichski = new HashSet<City>();
+        districtBaranovichski.add(baranovichi);
+        districtBaranovichski.add(rechitsa);
 
-        Region minskaya = new Region("Minskaya", new District[]{baranovichski, brestsiy, kobrinsky});
-        Region gomelskaya = new Region("Gomelskaya", new District[]{minsky, mogilevsky, gomelsky});
+        District baranovichski = new District("Baranovichskiy", districtBaranovichski);
 
-        State belarus = new State("Belarus", new Region[]{minskaya, gomelskaya});
+        // Второй район
+        City brest = new City("Brest", 350616, 146, false, true);
+        City borisov = new City("Borisov", 143051, 46, false, false);
+
+        Set<City> districtBrestskiy = new HashSet<City>();
+        districtBrestskiy.add(brest);
+        districtBrestskiy.add(borisov);
+
+        District brestskiy = new District("Brestsiy", districtBrestskiy);
+
+
+        // Третий район
+        City orsha = new City("Orsha", 115052, 33, false, false);
+        City polotsk = new City("Polotsk", 84597, 40, false, false);
+
+        Set<City> districtKobrinsky = new HashSet<City>();
+        districtKobrinsky.add(orsha);
+        districtKobrinsky.add(polotsk);
+
+        District kobrinsky = new District("Kobrinsky", districtKobrinsky);
+
+        // Четвёртый район
+        City minsk = new City("Minsk", 1992685, 348, true, true);
+
+        Set<City> districtMinskiy = new HashSet<City>();
+        districtMinskiy.add(minsk);
+
+        District minsky = new District("Minsky", districtMinskiy);
+
+
+        // Первая область
+        Set<District> regionMinsky = new HashSet<District>();
+        regionMinsky.add(minsky);
+        regionMinsky.add(baranovichski);
+
+        Region minskaya = new Region("Minskaya", regionMinsky);
+
+        // Вторая область
+        Set<District> regionBrestskiy = new HashSet<District>();
+        regionBrestskiy.add(brestskiy);
+        regionBrestskiy.add(kobrinsky);
+        Region gomelskaya = new Region("Gomelskaya", regionBrestskiy);
+
+        // Страна
+        Set<Region> belarusian = new HashSet<Region>();
+        belarusian.add(minskaya);
+        belarusian.add(gomelskaya);
+
+        State belarus = new State("Belarus", belarusian);
+
+        // Начало логики
 
         StateLogic stateLogic = new StateLogic();
 
         System.out.println("Столица страны " + belarus.getName());
-        System.out.println(stateLogic.giveCapital(belarus));
+        System.out.println(stateLogic.giveCapital(belarus).getName());
 
-        System.out.println("Количество областей страны " + belarus.getName());
+        System.out.println("\nКоличество областей страны " + belarus.getName());
         System.out.println(stateLogic.giveCountOfRegions(belarus));
 
-        System.out.println("Площадь страны " + belarus.getName());
+        System.out.println("\nПлощадь страны " + belarus.getName());
         System.out.println(stateLogic.giveStateArea(belarus));
 
         System.out.println("Список областных центров страны : " + belarus.getName());
-        System.out.println(stateLogic.giveRegionalCenters(belarus));
+        Set<City> regionalCentres = stateLogic.giveRegionalCenters(belarus);
+
+        for (City city : regionalCentres) {
+            System.out.println(city.getName());
+        }
 
     }
 }

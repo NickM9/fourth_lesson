@@ -1,17 +1,16 @@
 package by.epam.agregation_and_composition.second.entity;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Text {
 
     private String header;
-    private Sentence[] sentences;
+    private List<Sentence> sentences;
 
-    public Text(String header, Sentence... s) {
+    public Text(String header, List<Sentence> sentences) {
         this.header = header;
-        this.sentences = s;
+        this.sentences = sentences;
     }
 
     public String getHeader() {
@@ -22,11 +21,11 @@ public class Text {
         this.header = header;
     }
 
-    public Sentence[] getSentences() {
+    public List<Sentence> getSentences() {
         return sentences;
     }
 
-    public void setSentences(Sentence[] sentences) {
+    public void setSentences(List<Sentence> sentences) {
         this.sentences = sentences;
     }
 
@@ -34,7 +33,21 @@ public class Text {
     public String toString() {
         return "Text{" +
                 "header='" + header + '\'' +
-                ", sentences=" + Arrays.toString(sentences) +
+                ", sentences=" + sentences +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Text text = (Text) o;
+        return Objects.equals(header, text.header) &&
+                Objects.equals(sentences, text.sentences);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(header, sentences);
     }
 }

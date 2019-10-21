@@ -1,15 +1,17 @@
 package by.epam.agregation_and_composition.third.entity;
 
+import java.util.Objects;
+
 public class Account {
 
     private int id;
     private double balance;
-    private boolean isBlock;
+    private boolean block;
 
     public Account(int id, double balance) {
         this.id = id;
         this.balance = balance;
-        this.isBlock = (balance < 0) ? true : false;
+        this.block = (balance < 0) ? true : false;
     }
 
     public int getId() {
@@ -26,26 +28,38 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
-        isBlock = (balance < 0) ? true : false;
+        block = (balance < 0) ? true : false;
     }
 
     public boolean isBlock() {
-        return isBlock;
+        return block;
     }
 
     public void setBlock(boolean block) {
-        isBlock = block;
+        block = block;
     }
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("Счет");
-        sb.append("\n");
+        return "Account{" +
+                "id=" + id +
+                ", balance=" + balance +
+                ", block=" + block +
+                '}';
+    }
 
-        sb.append("id = "); sb.append(id); sb.append("\n");
-        sb.append("Баланс = "); sb.append(balance); sb.append("\n");
-        sb.append("Статус блокировки - "); sb.append(isBlock); sb.append("\n");
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return id == account.id &&
+                Double.compare(account.balance, balance) == 0 &&
+                block == account.block;
+    }
 
-        return sb.toString();
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, balance, block);
     }
 }

@@ -1,6 +1,7 @@
 package by.epam.agregation_and_composition.third.entity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Client {
 
@@ -38,5 +39,19 @@ public class Client {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(clientName, client.clientName) &&
+                Objects.equals(accounts, client.accounts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clientName, accounts);
     }
 }

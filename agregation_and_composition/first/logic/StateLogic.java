@@ -6,18 +6,17 @@ package by.epam.agregation_and_composition.first.logic;
  */
 
 import by.epam.agregation_and_composition.first.entity.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 public class StateLogic {
 
-    public String giveCapital(State state){
-        for (int i = 0; i < state.getRegions().length; i++){
-            for (int j = 0; j < state.getRegions()[i].getDistricts().length; j++){
-                for (int x = 0; x < state.getRegions()[i].getDistricts()[j].getCities().length; x++){
-                    if (state.getRegions()[i].getDistricts()[j].getCities()[x].isCapital()){
-                        return state.getRegions()[i].getDistricts()[j].getCities()[x].toString();
+    public City giveCapital(State state){
+        for (Region region : state.getRegions()){
+            for (District district : region.getDistricts()){
+                for (City city : district.getCities()){
+                    if (city.isCapital()){
+                        return city;
                     }
                 }
             }
@@ -26,33 +25,37 @@ public class StateLogic {
     }
 
     public int giveCountOfRegions(State state){
-        return state.getRegions().length;
+        return state.getRegions().size();
     }
 
     public int giveStateArea(State state){
         int sum = 0;
-        for (int i = 0; i < state.getRegions().length; i++) {
-            sum += state.getRegions()[i].getArea();
+        for (Region region : state.getRegions()) {
+            for (District district : region.getDistricts()){
+                for (City city : district.getCities()){
+                    sum += city.getArea();
+                }
+            }
         }
         return sum;
     }
 
-    public ArrayList<City> giveRegionalCenters(State state){
-        Region[] regions = state.getRegions();
-        ArrayList <City> regionsCentres = new ArrayList<City>();
+    public Set<City> giveRegionalCenters(State state){
+        Set<City> regionalCentres = new HashSet<City>();
 
-        for (int i = 0; i < regions.length; i++){
-            for (int j = 0; j < regions[i].getDistricts().length; j++){
-                for (int x = 0; x < regions[i].getDistricts()[j].getCities().length; x++){
-                    if (regions[i].getDistricts()[j].getCities()[x].isRegionalCenter()){
-                        City city = regions[i].getDistricts()[j].getCities()[x];
-                        regionsCentres.add(city);
+        for (Region region : state.getRegions()) {
+            for (District district : region.getDistricts()){
+                for (City city : district.getCities()){
+
+                    if (city.isRegionalCenter()){
+                        regionalCentres.add(city);
                     }
+
                 }
             }
         }
 
-        return regionsCentres;
+        return regionalCentres;
     }
 
 }

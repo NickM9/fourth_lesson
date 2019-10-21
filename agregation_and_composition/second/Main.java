@@ -11,9 +11,13 @@ package by.epam.agregation_and_composition.second;
 import by.epam.agregation_and_composition.second.entity.*;
 import by.epam.agregation_and_composition.second.logic.TextLogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
 
+        // Слова
         String header = "Header";
         Word hello = new Word("Hello");
         Word world = new Word("world.");
@@ -22,23 +26,59 @@ public class Main {
         Word neww = new Word("New");
         Word sentence = new Word("sentence.");
 
-        Sentence firstSentence = new Sentence(hello, world);
-        Sentence secondSentence = new Sentence(peace, together);
+        // Предложения
+        List<Word> firstWords = new ArrayList<Word>();
+        firstWords.add(hello);
+        firstWords.add(world);
 
-        Text text = new Text(header, firstSentence, secondSentence);
+        Sentence firstSentence = new Sentence(firstWords);
+
+        List<Word> secondWords = new ArrayList<Word>();
+        secondWords.add(peace);
+        secondWords.add(together);
+
+        Sentence secondSentence = new Sentence(secondWords);
+
+        // Текст
+        List<Sentence> sentences = new ArrayList<Sentence>();
+        sentences.add(firstSentence);
+        sentences.add(secondSentence);
+
+        Text text = new Text(header, sentences);
+
+        // Логика
 
         TextLogic textLogic = new TextLogic();
 
         System.out.println("Наш текст");
-        System.out.println(textLogic.giveText(text));
+        System.out.println(printText(text));
 
-        System.out.println("Добавим ещё одно предложение");
-        Sentence thirdSentence = new Sentence(neww, sentence);
-        textLogic.addText(text, thirdSentence);
-        System.out.println(textLogic.giveText(text));
+        System.out.println("Добавим ещё одно предложение и поставим посередине");
+        List<Word> thirdWords = new ArrayList<Word>();
+        thirdWords.add(neww);
+        thirdWords.add(sentence);
+        Sentence thirdSentence = new Sentence(thirdWords);
+
+        textLogic.addText(text, thirdSentence, 2);
+        System.out.println(printText(text));
 
         System.out.println("Заголовок нашего текста");
-        System.out.println(textLogic.giveHeader(text));
+        System.out.println(text.getHeader());
 
+    }
+
+    private static String printText(Text text){
+        StringBuffer sb = new StringBuffer(text.getHeader());
+        sb.append("\n");
+
+        for (Sentence sentence : text.getSentences()){
+            for (Word word : sentence.getWords()){
+                sb.append(word.getWord());
+                sb.append(" ");
+            }
+        }
+        sb.append("\n");
+
+        return sb.toString();
     }
 }

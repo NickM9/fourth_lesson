@@ -1,5 +1,7 @@
 package by.epam.agregation_and_composition.first.entity;
 
+import java.util.Objects;
+
 public class City {
 
     private String name;
@@ -58,12 +60,29 @@ public class City {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("\nГород : ");
-        sb.append(name); sb.append("\n");
-        sb.append("Население - "); sb.append(population); sb.append("\n");
-        sb.append("Площадь - "); sb.append(area); sb.append("кв.км"); sb.append("\n");
-        sb.append("Является региональным центром - "); sb.append(isRegionalCenter); sb.append("\n");
-        sb.append("Является столицей - "); sb.append(isCapital); sb.append("\n");
-        return sb.toString();
+        return "City{" +
+                "name='" + name + '\'' +
+                ", population=" + population +
+                ", area=" + area +
+                ", isCapital=" + isCapital +
+                ", isRegionalCenter=" + isRegionalCenter +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return population == city.population &&
+                area == city.area &&
+                isCapital == city.isCapital &&
+                isRegionalCenter == city.isRegionalCenter &&
+                Objects.equals(name, city.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, population, area, isCapital, isRegionalCenter);
     }
 }
